@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import com.martinsvitols.smack.Model.Channel
 import com.martinsvitols.smack.R
@@ -22,6 +23,7 @@ import com.martinsvitols.smack.Services.UserDataService
 import com.martinsvitols.smack.Utilities.BROADCAST_USER_DATA_CHANGE
 import com.martinsvitols.smack.Utilities.SOCKET_URL
 import io.socket.client.IO
+import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -30,6 +32,12 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 class MainActivity : AppCompatActivity() {
 
     val socket = IO.socket(SOCKET_URL)
+    lateinit var channelAdapter: ArrayAdapter<Channel>
+
+    private fun setupAdapters() {
+        channelAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, MessageService.channels)
+        channel_list.adapter = channelAdapter
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,16 +50,12 @@ class MainActivity : AppCompatActivity() {
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver,
-                IntentFilter(BROADCAST_USER_DATA_CHANGE))
-
+        setupAdapters()
     }
 
     override fun onResume() {
         LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver,
                 IntentFilter(BROADCAST_USER_DATA_CHANGE))
-
         super.onResume()
     }
 
@@ -62,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val userDataChangeReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
+        override fun onReceive(context: Context, intent: Intent?) {
             if (AuthService.isLoggedIn) {
                 userNameNavHeader.text = UserDataService.name
                 userEmailNavHeader.text = UserDataService.email
@@ -71,6 +75,12 @@ class MainActivity : AppCompatActivity() {
                 userImageNavHeader.setImageResource(resourceId)
                 userImageNavHeader.setBackgroundColor(UserDataService.returnAvatarColor(UserDataService.avatarColor))
                 loginBtnNavHeader.text = "Logout"
+
+                MessageService.getChannels(context) {complete ->
+                    if (complete) {
+                        channelAdapter.notifyDataSetChanged()
+                    }
+                }
             }
         }
     }
@@ -132,10 +142,7 @@ class MainActivity : AppCompatActivity() {
 
             val newChannel = Channel(channelName, channelDescription, channelId)
             MessageService.channels.add(newChannel)
-            println(newChannel.name)
-            println(newChannel.description)
-            println(newChannel.id)
-
+            channelAdapter.notifyDataSetChanged()
         }
     }
 
