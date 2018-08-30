@@ -13,7 +13,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/dark19" />
+        tools:srcCompat="@drawable/dark19"
+        android:contentDescription="@string/user_logo" />
 
     <TextView
         android:id="@+id/messageUserNameLbl"
@@ -47,5 +48,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/messageUserImage"
         app:layout_constraintTop_toBottomOf="@+id/timestampLbl"
-        tools:text="asdlasldjk alskdhalshkd aslkdhalsdh aslkdhihejasd jhasdihef nasajhsdajsd maskdhisd jasihdhd kaisjdsd asjdijsdasdj kasjdoi jashd jshd asdh asdh aisjd iasjdelknr iasdjiadaj rhubarb is delicous jes tei are jam ajm jam olaa " />
+        tools:text="@string/blaber" />
 </android.support.constraint.ConstraintLayout>
