@@ -88,10 +88,12 @@ class MainActivity : AppCompatActivity() {
             if (App.prefs.isLoggedIn) {
                 userNameNavHeader.text = UserDataService.name
                 userEmailNavHeader.text = UserDataService.email
-                val resourceId = resources.getIdentifier(UserDataService.avatarName, "drawable",
+                val resourceId = resources.getIdentifier(UserDataService.avatarName,
+                        "drawable",
                         packageName)
                 userImageNavHeader.setImageResource(resourceId)
-                userImageNavHeader.setBackgroundColor(UserDataService.returnAvatarColor(UserDataService.avatarColor))
+                userImageNavHeader.setBackgroundColor(
+                        UserDataService.returnAvatarColor(UserDataService.avatarColor))
                 loginBtnNavHeader.text = "Logout"
 
                 MessageService.getChannels { complete ->
@@ -115,7 +117,8 @@ class MainActivity : AppCompatActivity() {
                 if (complete) {
                     messageAdapter.notifyDataSetChanged()
                     if (messageAdapter.itemCount > 0) {
-                        messageListView.smoothScrollToPosition(messageAdapter.itemCount - 1)
+                        messageListView
+                                .smoothScrollToPosition(messageAdapter.itemCount - 1)
                     }
                 }
             }
@@ -200,7 +203,8 @@ class MainActivity : AppCompatActivity() {
                     val id = args[6] as String
                     val timeStamp = args[7] as String
 
-                    val newMessage = Message(msgBody, userName, channelId, userAvatar, userAvatarColor, id, timeStamp)
+                    val newMessage = Message(msgBody, userName, channelId,
+                            userAvatar, userAvatarColor, id, timeStamp)
                     MessageService.messages.add(newMessage)
                     messageAdapter.notifyDataSetChanged()
                     messageListView.smoothScrollToPosition(messageAdapter.itemCount - 1)

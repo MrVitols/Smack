@@ -15,10 +15,12 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MessageAdapter(val context: Context, val messages: ArrayList<Message>) : RecyclerView.Adapter<MessageAdapter.ViewHolder>() {
+class MessageAdapter(
+        val context: Context, val messages: ArrayList<Message>
+) : RecyclerView.Adapter<MessageAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder?.bindMessage(context, messages[position])
+        holder.bindMessage(context, messages[position])
     }
 
     override fun getItemCount(): Int {
@@ -26,20 +28,25 @@ class MessageAdapter(val context: Context, val messages: ArrayList<Message>) : R
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.message_list_view, parent, false)
+
+        val view = LayoutInflater.from(context)
+                .inflate(R.layout.message_list_view, parent, false)
         return ViewHolder(view)
     }
 
     inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+
         val userImage = itemView?.findViewById<ImageView>(R.id.messageUserImage)
         val timeStamp = itemView?.findViewById<TextView>(R.id.timestampLbl)
         val userName = itemView?.findViewById<TextView>(R.id.messageUserNameLbl)
         val messageBody = itemView?.findViewById<TextView>(R.id.messageBodyLbl)
 
         fun bindMessage(context: Context, message: Message) {
-            val resourceId = context.resources.getIdentifier(message.userAvatar, "drawable", context.packageName)
+            val resourceId = context.resources
+                    .getIdentifier(message.userAvatar, "drawable", context.packageName)
             userImage?.setImageResource(resourceId)
-            userImage?.setBackgroundColor(UserDataService.returnAvatarColor(message.userAvatarColor))
+            userImage?.setBackgroundColor(UserDataService
+                    .returnAvatarColor(message.userAvatarColor))
             userName?.text = message.userName
             timeStamp?.text = returnDateString(message.timeStamp)
             messageBody?.text = message.message
@@ -47,7 +54,8 @@ class MessageAdapter(val context: Context, val messages: ArrayList<Message>) : R
 
         fun returnDateString(isoString: String): String {
 
-            val isoFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            val isoFormatter = SimpleDateFormat(
+                    "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
             isoFormatter.timeZone = TimeZone.getTimeZone("UTC")
             var convertedDate = Date()
             try {
