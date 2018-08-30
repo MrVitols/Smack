@@ -25,7 +25,7 @@ object AuthService {
 
         val registerRequest = object : StringRequest(Method.POST, URL_REGISTER, Response.Listener {
             complete(true)
-        }, Response.ErrorListener {error ->
+        }, Response.ErrorListener { error ->
             Log.d("ERROR", "Could not register user: $error")
             complete(false)
         }) {
@@ -47,7 +47,7 @@ object AuthService {
         jsonBody.put("password", password)
         val requestBody = jsonBody.toString()
 
-        val loginRequest = object : JsonObjectRequest(Method.POST, URL_LOGIN, null, Response.Listener {response ->
+        val loginRequest = object : JsonObjectRequest(Method.POST, URL_LOGIN, null, Response.Listener { response ->
 
             try {
                 App.prefs.userEmail = response.getString("user")
@@ -59,7 +59,6 @@ object AuthService {
                 Log.d("JSON", "EXC: " + e.localizedMessage)
                 complete(false)
             }
-
 
 
         }, Response.ErrorListener {
@@ -103,7 +102,7 @@ object AuthService {
                 Log.d("JSON", "EXC: " + e.localizedMessage)
                 complete(false)
             }
-                }, Response.ErrorListener { error ->
+        }, Response.ErrorListener { error ->
             Log.d("ERROR", "Could not add user: $error")
             complete(false)
 
@@ -131,7 +130,7 @@ object AuthService {
 
     fun findUserByEmail(context: Context, complete: (Boolean) -> Unit) {
         val findUserRequest = object : JsonObjectRequest(Method.GET, "$URL_GET_USER${App.prefs.userEmail}", null,
-                Response.Listener {response ->
+                Response.Listener { response ->
                     try {
                         UserDataService.name = response.getString("name")
                         UserDataService.email = response.getString("email")
@@ -148,7 +147,7 @@ object AuthService {
                         Log.d("JSON", "EXC: " + e.localizedMessage)
                     }
 
-                }, Response.ErrorListener {error ->
+                }, Response.ErrorListener { error ->
             Log.d("ERROR", "Could not find user")
             complete(false)
 

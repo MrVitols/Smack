@@ -13,11 +13,11 @@ class SharedPrefs(context: Context) {
     val AUTH_TOKEN = "authToken"
     val USER_EMAIL = "userEmail"
 
-    var isLoggedIn : Boolean
+    var isLoggedIn: Boolean
         get() = prefs.getBoolean(IS_LOGGED_IN, false)
         set(value) = prefs.edit().putBoolean(IS_LOGGED_IN, value).apply()
 
-    var authToken : String
+    var authToken: String
         get() = prefs.getString(AUTH_TOKEN, "")
         set(value) = prefs.edit().putString(AUTH_TOKEN, value).apply()
 

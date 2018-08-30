@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     val socket = IO.socket(SOCKET_URL)
     lateinit var channelAdapter: ArrayAdapter<Channel>
     lateinit var messageAdapter: MessageAdapter
-    var selectedChannel : Channel? = null
+    var selectedChannel: Channel? = null
 
     private fun setupAdapters() {
         channelAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, MessageService.channels)
@@ -94,9 +94,9 @@ class MainActivity : AppCompatActivity() {
                 userImageNavHeader.setBackgroundColor(UserDataService.returnAvatarColor(UserDataService.avatarColor))
                 loginBtnNavHeader.text = "Logout"
 
-                MessageService.getChannels {complete ->
+                MessageService.getChannels { complete ->
                     if (complete) {
-                        if (MessageService.channels.count() > 0){
+                        if (MessageService.channels.count() > 0) {
                             selectedChannel = MessageService.channels[0]
                             channelAdapter.notifyDataSetChanged()
                             updateWithChannel()
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         mainChannelName.text = "#${selectedChannel?.name}"
 //        download messages for channel
         if (selectedChannel != null) {
-            MessageService.getMessages(selectedChannel!!.id) {complete ->
+            MessageService.getMessages(selectedChannel!!.id) { complete ->
                 if (complete) {
                     messageAdapter.notifyDataSetChanged()
                     if (messageAdapter.itemCount > 0) {
@@ -144,8 +144,8 @@ class MainActivity : AppCompatActivity() {
             loginBtnNavHeader.text = "Login"
             mainChannelName.text = "Please Login"
         } else {
-        val loginIntent = Intent(this, LoginActivity::class.java)
-        startActivity(loginIntent)
+            val loginIntent = Intent(this, LoginActivity::class.java)
+            startActivity(loginIntent)
         }
     }
 
@@ -157,7 +157,7 @@ class MainActivity : AppCompatActivity() {
 
             builder.setView(dialogView)
                     .setPositiveButton("Add") { _, _ ->
-//                        perform some logic when clicked
+                        //                        perform some logic when clicked
                         val nameTextField = dialogView.findViewById<EditText>(R.id.addChannelNameTxt)
                         val descTextField = dialogView.findViewById<EditText>(R.id.addChannelDescTxt)
                         val channelName = nameTextField.text.toString()
@@ -168,7 +168,7 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     .setNegativeButton("Cancel") { _, _ ->
-//                      cancel and close dialog
+                        //                      cancel and close dialog
                     }
                     .show()
         }
@@ -214,7 +214,7 @@ class MainActivity : AppCompatActivity() {
             val userId = UserDataService.id
             val channelId = selectedChannel!!.id
             socket.emit("newMessage", messageTextField.text.toString(), userId, channelId,
-                    UserDataService.name, UserDataService.avatarName, UserDataService. avatarColor)
+                    UserDataService.name, UserDataService.avatarName, UserDataService.avatarColor)
             messageTextField.text.clear()
             hideKeyboard()
         }

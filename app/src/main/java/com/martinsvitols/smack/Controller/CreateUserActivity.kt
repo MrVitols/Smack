@@ -40,7 +40,7 @@ class CreateUserActivity : AppCompatActivity() {
     }
 
     fun generateColorClicked(view: View) {
-        val random  = Random()
+        val random = Random()
         val r = random.nextInt(255)
         val g = random.nextInt(255)
         val b = random.nextInt(255)

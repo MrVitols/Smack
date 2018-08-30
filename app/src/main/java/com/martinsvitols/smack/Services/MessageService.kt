@@ -19,7 +19,7 @@ object MessageService {
 
     fun getChannels(complete: (Boolean) -> Unit) {
 
-        val channelsRequest = object : JsonArrayRequest(Method.GET, URL_GET_CHANNELS, null, Response.Listener {response ->
+        val channelsRequest = object : JsonArrayRequest(Method.GET, URL_GET_CHANNELS, null, Response.Listener { response ->
             try {
                 for (x in 0 until response.length()) {
                     val channel = response.getJSONObject(x)
@@ -57,7 +57,7 @@ object MessageService {
     fun getMessages(channelId: String, complete: (Boolean) -> Unit) {
         val url = "$URL_GET_MESSAGES$channelId"
 
-        val messagesRequest = object : JsonArrayRequest(Method.GET, url, null, Response.Listener {response ->
+        val messagesRequest = object : JsonArrayRequest(Method.GET, url, null, Response.Listener { response ->
             clearMessages()
             try {
                 for (x in 0 until response.length()) {
@@ -79,7 +79,7 @@ object MessageService {
                 complete(false)
             }
 
-        }, Response.ErrorListener {error ->
+        }, Response.ErrorListener { error ->
             Log.d("ERROR", "Could not retrieve messages")
             complete(false)
         }) {

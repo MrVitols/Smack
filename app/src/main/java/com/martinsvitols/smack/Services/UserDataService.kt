@@ -25,7 +25,7 @@ object UserDataService {
         MessageService.clearChannels()
     }
 
-    fun returnAvatarColor(components: String) : Int {
+    fun returnAvatarColor(components: String): Int {
 
         val strippedColor = components
                 .replace("[", "")
@@ -43,6 +43,6 @@ object UserDataService {
             b = (scanner.nextDouble() * 255).toInt()
         }
 
-        return Color.rgb(r,g,b)
+        return Color.rgb(r, g, b)
     }
 }
